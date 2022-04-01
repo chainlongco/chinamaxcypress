@@ -12,6 +12,27 @@
 // This function is called when a project is opened or re-opened (e.g. due to
 // the project's config changing)
 
+const mysql = require("mysql");
+
+function queryTestDb(query, config) {
+    // creates a new mysql connection using credentials from cypress.json env's
+    const connection = mysql.createConnection(config.env.db)
+    // start connection to db
+    connection.connect()
+    // exec query + disconnect to db as a Promise
+    return new Promise((resolve, reject) => {
+        connection.query(query, (error, results) => {
+          if (error) {
+            reject(error)
+          } else {
+              connection.end()
+              // console.log(results)
+              return resolve(results)
+            }
+        })
+    })
+}
+
 /**
  * @type {Cypress.PluginConfig}
  */
@@ -19,4 +40,20 @@
 module.exports = (on, config) => {
   // `on` is used to hook into various events Cypress emits
   // `config` is the resolved Cypress config
+
+  // Connects to an env db and fetches query result
+  /*on("task", {
+		DATABASE ({ dbConfig, sql, values }) {
+		  const pool = new mysql.Pool(dbConfig);
+		  try {
+			return pool.query(sql, values)
+		  } catch (e) {
+		  }
+		}
+  });*/
+  on("task", {
+    queryDb: query => {
+      return queryTestDb(query, config);
+    },
+  });
 }

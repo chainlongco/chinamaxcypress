@@ -10,5 +10,8 @@
   "license": "ISC",
   "devDependencies": {
     "cypress": "^9.5.2"
+  },
+  "dependencies": {
+    "mysql": "^2.18.1"
   }
 }

@@ -1,52 +1,47 @@
-// ***********************************************
-// This example commands.js shows you how to
-// create various custom commands and overwrite
-// existing commands.
-//
-// For more comprehensive examples of custom
-// commands please read more here:
-// https://on.cypress.io/custom-commands
-// ***********************************************
-//
-//
-// -- This is a parent command --
-// Cypress.Commands.add('login', (email, password) => { ... })
-//
-//
-// -- This is a child command --
-// Cypress.Commands.add('drag', { prevSubject: 'element'}, (subject, options) => { ... })
-//
-//
-// -- This is a dual command --
-// Cypress.Commands.add('dismiss', { prevSubject: 'optional'}, (subject, options) => { ... })
-//
-//
-// -- This will overwrite an existing command --
-// Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+/// <reference types="cypress" />
 
-Cypress.Commands.add('clickAndCheckComboIsHighlighted', (comboName) => {
-    const sql = 'select id from products where name = "' + comboName + '"'
-    cy.task('queryDb', sql)
+beforeEach('Visit menu', () => {
+    cy.visit('localhost:8000/menu')
+})
+
+describe('Default menu -- Regular Platter', () => {
+    const comboName = "Regular Platter"
+    const sql = "select * from products where name = '" + comboName + "'"
+
+    it('Check Regular Platter is highlighted for default menu', () => {
+        cy.task('queryDb', sql)
         .then((result) => {
+            // Check if Regular Platter is highlighted
             const id = result[0].id
-            cy.get('#productItem' + id).click()
-            cy.wait(1000)
             cy.get('#productItem' + id).should('have.css', 'border', '5px solid rgb(255, 0, 0)')    // red
             cy.get('#orderChoices > h1').contains(comboName)
         });
-})
+    })
 
-Cypress.Commands.add('clickAndCheckComboMaxSideEntreeDrink', (comboName) => {
-    const sql = 'select id from products where name = "' + comboName + '"'
-    cy.task('queryDb', sql)
+    it ('Check Regular Platter detail', () => {
+        cy.task('queryDb', sql)
         .then((result) => {
-            // Check Sides/Entrees/Drinks display for this combo
             const id = result[0].id
-            cy.get('#productItem' + id).click()
-            cy.wait(1000)
+            const name = result[0].name
+            const description = result[0].description
+            const price = "$" + result[0].price
+            cy.get('#productItem' + id).contains(name)
+            cy.get('#productItem' + id).contains(description)
+            cy.get('#productItem' + id).contains(price)
+        });
+    })
+
+    it('Check maximum sides and entrees for Regular Platter', () => {
+        cy.task('queryDb', sql)
+        .then((result) => {
+            // Check Sides and Entrees display for Regular Platter
+            const id = result[0].id
             const sql = "select * from combos where product_id = " + id
             cy.task('queryDb', sql)
             .then((result) => {
+                //expect(result[0].side).eq(1)
+                //expect(result[0].entree).eq(2)
+                //expect(result[0].drink).eq(0)
                 const side = "Choose " + result[0].side + " Side"
                 const entree = "Choose " + result[0].entree + " Entree"
                 const drink = "Choose " + result[0].drink + " Drink"
@@ -59,16 +54,13 @@ Cypress.Commands.add('clickAndCheckComboMaxSideEntreeDrink', (comboName) => {
                 }
             })
         });
-})
+    })
 
-Cypress.Commands.add('clickAndCheckComboChoices', (comboName) => {
-    const sql = 'select id from products where name = "' + comboName + '"'
-    cy.task('queryDb', sql)
+    it('Check side choices for Regular Platter', () => {
+        cy.task('queryDb', sql)
         .then((result) => {
-            // Check Sides/Entrees/Drinks display this combo
+            // Check Sides and Entrees display for Regular Platter
             const id = result[0].id
-            cy.get('#productItem' + id).click()
-            cy.wait(1000)
             const sql = "select * from combos where product_id = " + id
             cy.task('queryDb', sql)
             .then((result) => {
@@ -108,7 +100,9 @@ Cypress.Commands.add('clickAndCheckComboChoices', (comboName) => {
                         for (var i=0; i < result.length; i++) {
                             const id = result[i].id
                             const gallery = '\\images\\' + result[i].gallery
-                            if (result[i].price > 0) {
+                            cy.get('#choiceItemDrink' + id).contains(result[i].name)
+                            cy.get('#choiceItemDrink' + id).find('img').should('have.attr', 'src', gallery)
+                            if (result[i].price) {
                                 cy.get('#choiceItemDrink' + id).contains(result[i].price)
                             }
                             if (result[i].tablename != "") {
@@ -121,30 +115,15 @@ Cypress.Commands.add('clickAndCheckComboChoices', (comboName) => {
                                         cy.get('#choiceItemDrinkWithSelect' + id).contains(result[i].name)
                                     }
                                 })
-                            } else {
-                                cy.get('#choiceItemDrink' + id).contains(result[i].name)
-                                cy.get('#choiceItemDrink' + id).find('img').should('have.attr', 'src', gallery)
                             }
                         }
                     })
                 }
             })
-        }); 
-})
+        });
+    })
 
-Cypress.Commands.add('clickAndCheckComboChoices', (comboName) => {    
-    const sql = 'select id from products where name = "' + comboName + '"'
-    cy.task('queryDb', sql)
-        .then((result) => {
-            // Check minus/quantity/plus and Add to Cart button for this combo
-            const id = result[0].id
-            cy.get('#productItem' + id).click()
-            cy.wait(1000)
-            cy.get('#quantityMinus' + id).should('be.visible')
-            cy.get('#quantity' + id).should('have.value', 1)
-            cy.get('#quantity' + id).should('be.disabled')
-            cy.get('#quantityPlus' + id).should('be.visible')
-            cy.get('#addToCartForCombo' + id).should('be.visible')
-            cy.get('#addToCartForCombo' + id).should('be.disabled')
-        });    
+    it('Click and check minus/quantity/plus and Add to cart buttons for Regular Platter', () => {
+        cy.clickAndCheckComboChoices(comboName)
+    })
 })
