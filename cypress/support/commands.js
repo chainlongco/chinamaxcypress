@@ -148,3 +148,15 @@ Cypress.Commands.add('clickAndCheckComboChoices', (comboName) => {
             cy.get('#addToCartForCombo' + id).should('be.disabled')
         });    
 })
+
+Cypress.Commands.add('defaultQuantityAndAddToCartButton', (buttonId, id) => {
+    // Default minus and plus buttons should be visible
+    // Default quantity input box should be disabled and value should be 0
+    // Default add to cart button should be visible and disabled
+    cy.get('#quantityMinus' + id).should('be.visible')
+    cy.get('#quantity' + id).should('have.value', 0)
+    cy.get('#quantity' + id).should('be.disabled')
+    cy.get('#quantityPlus' + id).should('be.visible')
+    cy.get('#' + buttonId + id).should('be.visible')
+    cy.get('#' + buttonId + id).should('be.disabled')  
+})
