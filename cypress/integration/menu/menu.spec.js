@@ -39,6 +39,10 @@ describe('Combo', () => {
         })
     })
 
+    it('Mouse hover in and underline the Combo name', () => {
+        cy.hoverAndUnderlineFromMenuTable("Combo")
+    })
+
     it('Get appetizer information', () => {
         const sql = "select * from menus where name = 'Appetizers'"
         cy.task('queryDb', sql)
@@ -47,6 +51,10 @@ describe('Combo', () => {
             cy.get('#menuItem' + id).contains(result[0].name)
             cy.get('#menuItem' + id).contains(result[0].description)
         })
+    })
+
+    it('Mouse hover in and underline the Appetizers name', () => {
+        cy.hoverAndUnderlineFromMenuTable("Appetizers")
     })
 
     it('Get drink information', () => {
@@ -59,7 +67,11 @@ describe('Combo', () => {
         })
     })
 
-    it('Get Individual Side/Entree ist information', () => {
+    it('Mouse hover in and underline the Drinks name', () => {
+        cy.hoverAndUnderlineFromMenuTable("Drinks")
+    })
+
+    it('Get Individual Side/Entree list information', () => {
         const sql = "select * from menus where name = 'Individual Side/Entree'"
         cy.task('queryDb', sql)
         .then((result) => {
@@ -76,5 +88,9 @@ describe('Combo', () => {
                 cy.get('#singleItem' + result[i].id).contains(result[i].description)
             }
         })
+    })
+
+    it('Mouse hover in and underline the Individual Side/Entree name', () => {
+        cy.hoverAndUnderlineFromMenuTable("Individual Side/Entree")
     })
 })

@@ -4,8 +4,8 @@ beforeEach('Visit menu', () => {
     cy.visit('localhost:8000/menu')
 })
 
-describe('Click combo -- kids meal', () => {
-    const comboName = "Kid's Meal"
+describe('Click combo -- regular platter', () => {
+    const comboName = "Regular Platter"
 
     it('Click and check combo is highlighted', () => {
         cy.clickAndCheckComboIsHighlighted(comboName)

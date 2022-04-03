@@ -124,6 +124,10 @@ describe('Default menu -- Regular Platter', () => {
     })
 
     it('Click and check minus/quantity/plus and Add to cart buttons for Regular Platter', () => {
-        cy.clickAndCheckComboChoices(comboName)
+        cy.comboQuantityAndAddToCartButton(comboName)
+    })
+
+    it('Mouse hover in and underline the combo name', () => {
+        cy.hoverAndUnderlineFromProductTable(comboName)
     })
 })

@@ -67,4 +67,8 @@ describe('Click appetizers', () => {
                     })
             })  
     })
+
+    it('Mouse hover in and underline the Drinks name', () => {
+        cy.hoverAndUnderlineFromMenuTable("Drinks")
+    })
 })

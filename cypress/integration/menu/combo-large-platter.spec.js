@@ -20,6 +20,10 @@ describe('Click combo -- large platter', () => {
     })
 
     it('Click and check minus/quantity/plus and Add to cart buttons for this combo', () => {
-        cy.clickAndCheckComboChoices(comboName)
+        cy.comboQuantityAndAddToCartButton(comboName)
+    })
+
+    it('Mouse hover in and underline the combo name', () => {
+        cy.hoverAndUnderlineFromProductTable(comboName)
     })
 })
