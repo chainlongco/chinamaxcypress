@@ -33,6 +33,10 @@ describe('Click appetizers', () => {
                             cy.get('#choiceItemDrinkName' + resultDrinks[i].id).contains(resultDrinks[i].name)
                             cy.defaultQuantityAndAddToCartButton('addToCartForDrinkOnly', drinkId)
 
+                            // Hover the choices
+                            cy.get('#choiceItemDrink' + resultDrinks[i].id).invoke('show').click().get('#choiceItemDrinkName' + resultDrinks[i].id)
+                            .should('have.css', 'text-decoration', 'underline solid rgb(33, 37, 41)');
+
                             // For price
                             const tableName = resultDrinks[i].tablename
                             if (tableName == "") {  // For Water and Bottle Water

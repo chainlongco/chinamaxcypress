@@ -22,16 +22,22 @@ describe('Click single -- side', () => {
                 cy.task('queryDb', sql)
                     .then((resultSides) => {
                         for (var i=0; i<resultSides.length; i++) {
-                            cy.get('#choiceItemSide' + resultSides[i].id + ' > img').should('have.attr', 'src', '\\images\\' + resultSides[i].gallery)
-                            cy.get('#choiceItemSide' + resultSides[i].id).contains(resultSides[i].name)
+                            const sideId = resultSides[i].id
+                            cy.get('#choiceItemSide' + sideId + ' > img').should('have.attr', 'src', '\\images\\' + resultSides[i].gallery)
+                            cy.get('#choiceItemSide' + sideId).contains(resultSides[i].name)
+
+                            // Hover the choices
+                            cy.get('#choiceItemSide' + sideId).invoke('show').click().get('#choiceItemSideName' + sideId)
+                            .should('have.css', 'text-decoration', 'underline solid rgb(33, 37, 41)');
+
                             const sql = 'select * from products where category = ' + '"Side"'
                             cy.task('queryDb', sql)
                                 .then((resultProducts) => {
                                     for (var i=0; i<resultProducts.length; i++) {
-                                        cy.get('#productSides' + resultSides[i].id).contains(resultProducts[i].name + ' - ' + '$' + resultProducts[i].price)
+                                        cy.get('#productSides' + sideId).contains(resultProducts[i].name + ' - ' + '$' + resultProducts[i].price)
                                     }
                                 })
-                            cy.defaultQuantityAndAddToCartButton('addToCartForSide', resultSides[i].id)
+                            cy.defaultQuantityAndAddToCartButton('addToCartForSide', sideId)
                         }
                     })
             })

@@ -62,7 +62,7 @@ Cypress.Commands.add('clickAndCheckComboMaxSideEntreeDrink', (comboName) => {
         });
 })
 
-Cypress.Commands.add('clickAndCheckComboChoices', (comboName) => {
+Cypress.Commands.add('clickAndCheckComboChoicesAndHoverThem', (comboName) => {
     const sql = 'select id from products where name = "' + comboName + '"'
     cy.task('queryDb', sql)
         .then((result) => {
@@ -85,6 +85,11 @@ Cypress.Commands.add('clickAndCheckComboChoices', (comboName) => {
                             const gallery = '\\images\\' + result[i].gallery
                             cy.get('#choiceItemSide' + id).contains(result[i].name)
                             cy.get('#choiceItemSide' + id).find('img').should('have.attr', 'src', gallery)
+
+                            // Hover the choices
+                            cy.get('#choiceItemSide' + id).invoke('show').click().get('#choiceItemSideName' + id)
+                            .should('have.css', 'text-decoration', 'underline solid rgb(33, 37, 41)');
+                            cy.get('#choiceItemSide' + id).invoke('show').click()   // This is line is to unselect the choice
                         }
                     })
                 }
@@ -98,6 +103,11 @@ Cypress.Commands.add('clickAndCheckComboChoices', (comboName) => {
                             const gallery = '\\images\\' + result[i].gallery
                             cy.get('#choiceItemEntree' + id).contains(result[i].name)
                             cy.get('#choiceItemEntree' + id).find('img').should('have.attr', 'src', gallery)
+
+                            // Hover the choices
+                            cy.get('#choiceItemEntree' + id).invoke('show').click().get('#choiceItemEntreeName' + id)
+                            .should('have.css', 'text-decoration', 'underline solid rgb(33, 37, 41)');
+                            cy.get('#choiceItemEntree' + id).invoke('show').click()   // This is line is to unselect the choice
                         }
                     })
                 }
@@ -120,11 +130,17 @@ Cypress.Commands.add('clickAndCheckComboChoices', (comboName) => {
                                 .then((result) => {
                                     for (var i=0; i < result.length; i++) {
                                         cy.get('#choiceItemDrinkWithSelect' + id).contains(result[i].name)
+                                        // Hover the choices
+                                        cy.get('#choiceItemDrinkWithSelect' + id).invoke('show').click().get('#choiceItemDrinkName' + id)
+                                        .should('have.css', 'text-decoration', 'underline solid rgb(33, 37, 41)');
                                     }
                                 })
                             } else {
                                 cy.get('#choiceItemDrink' + id).contains(result[i].name)
                                 cy.get('#choiceItemDrink' + id).find('img').should('have.attr', 'src', gallery)
+                                // Hover the choices
+                                cy.get('#choiceItemDrink' + id).invoke('show').click().get('#choiceItemDrinkName' + id)
+                                .should('have.css', 'text-decoration', 'underline solid rgb(33, 37, 41)');
                             }
                         }
                     })
@@ -204,40 +220,120 @@ Cypress.Commands.add('defaultQuantityAndAddToCartButton', (buttonId, id) => {
     cy.get('#' + buttonId + id).should('be.visible')
     cy.get('#' + buttonId + id).should('be.disabled')  
 })
+
+Cypress.Commands.add('checkAddToCartButtonEnabled', (buttonId, id) => {
+    cy.get('#' + buttonId + id).should('be.visible')
+    cy.get('#' + buttonId + id).should('have.css', 'color: rgb(255, 0, 0)')
+    cy.get('#' + buttonId + id).should('be.enabled')
+})
+
+Cypress.Commands.add('checkAddToCartButtonDisabled', (buttonId, id) => {
+    cy.get('#' + buttonId + id).should('be.visible')
+    cy.get('#' + buttonId + id).should('be.disabled')
+})
 // ***** Shared End *****
 
 Cypress.Commands.add('hoverAndUnderlineFromProductTable', (comboName) => {
     // This is for all combos from products table: Small Platter, Regular Platter, Large Platter, Party Tray, and Kid's Meal
     const sql = 'select id from products where name = "' + comboName + '"'
-        cy.task('queryDb', sql)
-            .then((result) => {
-                // Hover and underline the combo name for this combo
-                const id = result[0].id
-                cy.get('#productItem' + id).invoke('show').click().get('.productItemName' + id)
-                .should('have.css', 'text-decoration', 'underline solid rgb(33, 37, 41)');
-            })
+    cy.task('queryDb', sql)
+        .then((result) => {
+            // Hover and underline the combo name for this combo
+            const id = result[0].id
+            cy.get('#productItem' + id).invoke('show').click().get('.productItemName' + id)
+            .should('have.css', 'text-decoration', 'underline solid rgb(33, 37, 41)');
+        })
 });
 
 Cypress.Commands.add('hoverAndUnderlineFromMenuTable', (menuName) => {
     // This is for all names from menus table: Appetizers, Drinks, Combo, and Individule Side/Entree
     const sql = 'select id from menus where name = "' + menuName + '"'
-        cy.task('queryDb', sql)
-            .then((result) => {
-                // Hover and underline the combo name for this combo
-                const id = result[0].id
-                cy.get('#menuItem' + id).invoke('show').click().get('.menuItemName' + id)
-                .should('have.css', 'text-decoration', 'underline solid rgb(33, 37, 41)');
-            })
+    cy.task('queryDb', sql)
+        .then((result) => {
+            // Hover and underline the combo name for this combo
+            const id = result[0].id
+            cy.get('#menuItem' + id).invoke('show').click().get('.menuItemName' + id)
+            .should('have.css', 'text-decoration', 'underline solid rgb(33, 37, 41)');
+        })
 });
 
 Cypress.Commands.add('hoverAndUnderlineFromSingleTable', (singleName) => {
     // This is for all names from singles table: Side, ChickenEntree, BeefEntree, and ShrimpEntree
     const sql = 'select id from singles where name = "' + singleName + '"'
-        cy.task('queryDb', sql)
-            .then((result) => {
-                // Hover and underline the combo name for this combo
-                const id = result[0].id
-                cy.get('#singleItem' + id).invoke('show').click().get('.singleItemName' + id)
-                .should('have.css', 'text-decoration', 'underline solid rgb(33, 37, 41)');
-            })
+    cy.task('queryDb', sql)
+        .then((result) => {
+            // Hover and underline the combo name for this combo
+            const id = result[0].id
+            cy.get('#singleItem' + id).invoke('show').click().get('.singleItemName' + id)
+            .should('have.css', 'text-decoration', 'underline solid rgb(33, 37, 41)');
+        })
 });
+
+/*Cypress.Commands.add('hoverAndUnderline', (category, tableName, choiceName) => {
+    const sql = 'select id from ' + tableName + ' where name = "' + choiceName + '"'
+    cy.task('queryDb', sql)
+        .then((result) => {
+            // Hover and underline the choice item for combo, appetizers, drinks, and individual side/entree
+            const id = result[0].id
+            cy.get('#choiceItem' + category + id).invoke('show').click().get('#choiceItem' + category + 'Name' + id)
+            .should('have.css', 'text-decoration', 'underline solid rgb(33, 37, 41)');
+        })
+})*/
+
+Cypress.Commands.add('hoverAndWillNotUnderline', (category, tableName, choiceName) => {
+    const sql = 'select id from ' + tableName + ' where name = "' + choiceName + '"'
+    cy.task('queryDb', sql)
+        .then((result) => {
+            // Hover and underline the choice item for combo, appetizers, drinks, and individual side/entree
+            const id = result[0].id
+            cy.get('#choiceItem' + category + id).invoke('show').click({force: true}).get('#choiceItem' + category + 'Name' + id)
+            .should('have.css', 'text-decoration', 'none solid rgb(33, 37, 41)');
+        })
+})
+
+// ***** Side/Entree/Drink click and selected or gray out start *****
+Cypress.Commands.add('checkChoiceGrayedOut', (category, tableName, choiceName) => {
+    const sql = 'select id from ' + tableName + ' where name = "' + choiceName + '"'
+    cy.task('queryDb', sql)
+        .then((result) => {
+            const id = result[0].id
+            cy.get('#choiceItem' + category + result[0].id).should('have.css', 'background-color', 'rgb(211, 211, 211)')
+        }) 
+})
+
+Cypress.Commands.add('clickAndCheckChoiceSelectedOrNo', (category, tableName, choiceName, selected, quantity) => {
+    const sql = 'select id from ' + tableName + ' where name = "' + choiceName + '"'
+    cy.task('queryDb', sql)
+        .then((result) => {
+            cy.get('#choiceItem' + category + result[0].id).click()
+            cy.wait(1000)
+            if (selected) {
+                cy.get('#choiceItem' + category + result[0].id).should('have.css', 'border', '5px solid rgb(255, 0, 0)')
+                cy.get('#' + category.toLowerCase() + 'Selected' + result[0].id).contains(quantity + ' Selected')
+            } else {
+                cy.get('#choiceItem' + category + result[0].id).should('have.css', 'border', '3px solid rgb(211, 211, 211)')
+            }       
+        })
+})
+
+Cypress.Commands.add('checkChoiceSelectedOrNo', (category, tableName, choiceName, selected, quantity) => {
+    const sql = 'select id from ' + tableName + ' where name = "' + choiceName + '"'
+    cy.task('queryDb', sql)
+        .then((result) => {
+            if (selected) {
+                cy.get('#choiceItem' + category + result[0].id).should('have.css', 'border', '5px solid rgb(255, 0, 0)')
+                cy.get('#' + category.toLowerCase() + 'Selected' + result[0].id).contains(quantity + ' Selected')
+            } else {
+                cy.get('#choiceItem' + category + result[0].id).should('have.css', 'border', '3px solid rgb(211, 211, 211)')
+            }       
+        })
+})
+
+Cypress.Commands.add('checkChoiceNotSelected', (category, tableName, choiceName) => {
+    const sql = 'select id from ' + tableName + ' where name = "' + choiceName + '"'
+    cy.task('queryDb', sql)
+        .then((result) => {
+            cy.get('#choiceItem' + category + result[0].id).should('have.css', 'border', '3px solid rgb(211, 211, 211)')
+        })
+})
+// ***** Side/Entree/Drink click and selected or gray out end *****

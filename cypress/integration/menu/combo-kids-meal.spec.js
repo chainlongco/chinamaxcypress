@@ -15,8 +15,8 @@ describe('Click combo -- kids meal', () => {
         cy.clickAndCheckComboMaxSideEntreeDrink(comboName)
     })
 
-    it('Check side/entree/drink choices for this combo', () => {
-        cy.clickAndCheckComboChoices(comboName)
+    it('Check side/entree/drink choices and hover them for this combo', () => {
+        cy.clickAndCheckComboChoicesAndHoverThem(comboName)
     })
 
     it('Click and check minus/quantity/plus and Add to cart buttons for this combo', () => {
