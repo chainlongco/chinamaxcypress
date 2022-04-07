@@ -209,7 +209,7 @@ Cypress.Commands.add('clickAndCheckSingleEntreeChoices', (singleEntreeName) => {
 // ***** Singles End *****
 
 // ***** Shared Start *****
-Cypress.Commands.add('defaultQuantityAndAddToCartButton', (buttonId, id) => {
+Cypress.Commands.add('defaultQuantityAndAddToCartButton', (buttonName, id) => {
     // Default minus and plus buttons should be visible
     // Default quantity input box should be disabled and value should be 0
     // Default add to cart button should be visible and disabled
@@ -217,19 +217,64 @@ Cypress.Commands.add('defaultQuantityAndAddToCartButton', (buttonId, id) => {
     cy.get('#quantity' + id).should('have.value', 0)
     cy.get('#quantity' + id).should('be.disabled')
     cy.get('#quantityPlus' + id).should('be.visible')
-    cy.get('#' + buttonId + id).should('be.visible')
-    cy.get('#' + buttonId + id).should('be.disabled')  
+    cy.get('#' + buttonName + id).should('be.visible')
+    cy.get('#' + buttonName + id).should('be.disabled')  
 })
 
-Cypress.Commands.add('checkAddToCartButtonEnabled', (buttonId, id) => {
-    cy.get('#' + buttonId + id).should('be.visible')
-    cy.get('#' + buttonId + id).should('have.css', 'color: rgb(255, 0, 0)')
-    cy.get('#' + buttonId + id).should('be.enabled')
+Cypress.Commands.add('checkAddToCartButtonEnabled', (tableName, criteriaName, buttonName) => {
+    const sql = 'select id from ' + tableName + ' where name = "' + criteriaName + '"'
+    cy.task('queryDb', sql)
+        .then((result) => {
+            cy.get('#' + buttonName + result[0].id).should('be.visible')
+            cy.get('#' + buttonName + result[0].id).should('have.css', 'color', 'rgb(255, 0, 0)')
+            cy.get('#' + buttonName + result[0].id).should('be.enabled')
+        })
+    // combo => addToCartForCombo => products talbe => Small Platter, Regular Platter, Large Platter, Party Tray, Kid's Meal
+    // appetizers => addToCart => products table => Egg Roll (5), Crab Rangoon (6), Fried Dumpling (5)
+    // drinks => addToCartForDrinkOnly => drinks => Water, Bottle Water, Canned Drink, Fountain Drink, Fresh Juice
+    // side => addToCartForSide => sides => Fried Rice, Chow Mein, Steam White Rice
+    // entree => addToCartForEntree => entrees => name.....
 })
 
-Cypress.Commands.add('checkAddToCartButtonDisabled', (buttonId, id) => {
-    cy.get('#' + buttonId + id).should('be.visible')
-    cy.get('#' + buttonId + id).should('be.disabled')
+Cypress.Commands.add('checkAddToCartButtonDisabled', (tableName, criteriaName, buttonName) => {
+    const sql = 'select id from ' + tableName + ' where name = "' + criteriaName + '"'
+    cy.task('queryDb', sql)
+        .then((result) => {
+            cy.get('#' + buttonName + result[0].id).should('be.visible')
+            cy.get('#' + buttonName + result[0].id).should('have.css', 'color', 'rgb(128, 128, 128)')
+            cy.get('#' + buttonName + result[0].id).should('be.disabled')
+        })
+})
+
+Cypress.Commands.add('clickPlusButtonAndCheckQuantity', (tableName, criteriaName, buttonName, quantity) => {
+    // Examples:
+    // cy.clickPlusButtonAndCheckQuantity('products', 'Small Platter', 'quantity', 2)
+    // cy.clickPlusButtonAndCheckQuantity('entrees', 'Jalapeno Chicken', 'entreeQuantity', 1)
+    const sql = 'select id from ' + tableName + ' where name = "' + criteriaName + '"'
+    cy.task('queryDb', sql)
+        .then((result) => {
+            cy.get('#' + buttonName + 'Plus' + result[0].id).click()
+            cy.wait(1000)
+            cy.get('#' + buttonName + result[0].id).should('have.value', quantity)
+        })
+})
+
+Cypress.Commands.add('clickMinusButtonAndCheckQuantity', (tableName, criteriaName, buttonName, quantity) => {
+    // Examples:
+    // cy.clickMinusButtonAndCheckQuantity('products', 'Small Platter', 'quantity', 2)
+    // cy.clickMinusButtonAndCheckQuantity('entrees', 'Jalapeno Chicken', 'entreeQuantity', 1)
+    const sql = 'select id from ' + tableName + ' where name = "' + criteriaName + '"'
+    cy.task('queryDb', sql)
+        .then((result) => {
+            cy.get('#' + buttonName + 'Minus' + result[0].id).click()
+            cy.wait(1000)
+            cy.get('#' + buttonName + result[0].id).should('have.value', quantity)
+            if (quantity == 0) {
+                if (document.getElementById('#' + buttonName + 'IncrementDiv' + result[0].id)) {
+                    cy.get('#' + buttonName + 'IncrementDiv' + result[0].id).should('have.css', 'display', 'none')
+                }
+            }
+        })
 })
 // ***** Shared End *****
 
@@ -301,6 +346,16 @@ Cypress.Commands.add('checkChoiceGrayedOut', (category, tableName, choiceName) =
         }) 
 })
 
+Cypress.Commands.add('checkChoiceNotGrayedOut', (category, tableName, choiceName) => {
+    const sql = 'select id from ' + tableName + ' where name = "' + choiceName + '"'
+    cy.task('queryDb', sql)
+        .then((result) => {
+            const id = result[0].id
+            cy.get('#choiceItem' + category + result[0].id).should('have.css', 'background-color', 'rgb(255, 255, 255)')
+            cy.get('#choiceItem' + category + result[0].id).should('have.css', 'border', '3px solid rgb(211, 211, 211)')
+        }) 
+})
+
 Cypress.Commands.add('clickAndCheckChoiceSelectedOrNo', (category, tableName, choiceName, selected, quantity) => {
     const sql = 'select id from ' + tableName + ' where name = "' + choiceName + '"'
     cy.task('queryDb', sql)
@@ -336,4 +391,79 @@ Cypress.Commands.add('checkChoiceNotSelected', (category, tableName, choiceName)
             cy.get('#choiceItem' + category + result[0].id).should('have.css', 'border', '3px solid rgb(211, 211, 211)')
         })
 })
+
+Cypress.Commands.add('clickAndCheckChoiceSelectedOrNoWithPlusMinusButtons', (category, tableName, choiceName, selected, quantity) => {
+    const sql = 'select id from ' + tableName + ' where name = "' + choiceName + '"'
+    cy.task('queryDb', sql)
+        .then((result) => {
+            cy.get('#choiceItem' + category + result[0].id).click()
+            cy.wait(1000)
+            if (selected) {
+                cy.get('#choiceItem' + category + result[0].id).should('have.css', 'border', '5px solid rgb(255, 0, 0)')
+                cy.get('#' + category.toLowerCase() + 'Quantity' + result[0].id).should('have.value', quantity)
+            } else {
+                cy.get('#choiceItem' + category + result[0].id).should('have.css', 'border', '3px solid rgb(211, 211, 211)')
+            }       
+        })
+})
+
+Cypress.Commands.add('checkChoiceSelectedOrNoWithPlusMinusButtons', (category, tableName, choiceName, selected, quantity) => {
+    const sql = 'select id from ' + tableName + ' where name = "' + choiceName + '"'
+    cy.task('queryDb', sql)
+        .then((result) => {
+            if (selected) {
+                cy.get('#choiceItem' + category + result[0].id).should('have.css', 'border', '5px solid rgb(255, 0, 0)')
+                cy.get('#' + category.toLowerCase() + 'Quantity' + result[0].id).should('have.value', quantity)
+            } else {
+                cy.get('#choiceItem' + category + result[0].id).should('have.css', 'border', '3px solid rgb(211, 211, 211)')
+            }       
+        })
+})
+
+Cypress.Commands.add('selectForComboSmallDrink', (flavor) => {
+    cy.get('#comboDrink1').select(flavor)
+    cy.wait(1000)
+    if (flavor != 'Choose the flavor') {
+        cy.get('#choiceItemDrinkWithSelect1').should('have.css', 'border', '5px solid rgb(255, 0, 0)')
+        cy.get('#drinkSelected1').contains('One Selected')
+    } else {
+        cy.get('#choiceItemDrinkWithSelect1').should('have.css', 'border', '3px solid rgb(211, 211, 211)')
+    }
+})
 // ***** Side/Entree/Drink click and selected or gray out end *****
+
+// ***** Appetizers start *****
+Cypress.Commands.add('clickAndCheckAppetizersIsHighlighted', () => {
+    const sql = 'select * from menus where name = "Appetizers"'
+    cy.task('queryDb', sql)
+        .then((result) => {
+            const id = result[0].id
+            cy.get('#eachMenu' + id).click()
+            cy.wait(1000)
+            cy.get('#menuItem' + id).should('have.css', 'border', '5px solid rgb(255, 0, 0)')
+            cy.get('#orderChoices > h1').contains('Appetizers')
+        })
+})
+// ***** Appetizers end *****
+
+// ***** Drinks start *****
+Cypress.Commands.add('clickAndCheckDrinksIsHighlighted', () => {
+    const sql = 'select * from menus where name = "Drinks"'
+    cy.task('queryDb', sql)
+        .then((result) => {
+            const id = result[0].id
+            cy.get('#eachMenu' + id).click()
+            cy.wait(1000)
+            cy.get('#menuItem' + id).should('have.css', 'border', '5px solid rgb(255, 0, 0)')
+            cy.get('#orderChoices > h1').contains('Drinks')
+        })
+})
+
+Cypress.Commands.add('selectFlavorForDrink', (drinkName, flavor) => {
+    const sql = 'select id from drinks where name = "' + drinkName + '"'
+    cy.task('queryDb', sql)
+        .then((result) => {
+            cy.get('#selectDrink' + result[0].id).select(flavor)
+        })    
+})
+// ***** Drinks end *****

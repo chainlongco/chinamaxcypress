@@ -6,15 +6,7 @@ describe('Click appetizers', () => {
     })
 
     it('Check appetizers is highlighted', () => {
-        const sql = 'select * from menus where name = "Appetizers"'
-        cy.task('queryDb', sql)
-            .then((result) => {
-                const id = result[0].id
-                cy.get('#eachMenu' + id).click()
-                cy.wait(1000)
-                cy.get('#menuItem' + id).should('have.css', 'border', '5px solid rgb(255, 0, 0)')
-                cy.get('#orderChoices > h1').contains('Appetizers')
-            })  
+        cy.clickAndCheckAppetizersIsHighlighted()  
     })
 
     it('Check choices for appetizers and hover them', () => {
