@@ -1,21 +1,19 @@
 /// <reference types="cypress" />
 
 beforeEach('Visit cart', () => {
-    cy.visit('http://localhost:8000/cart')
+    cy.visit('http://localhost:8000/menu')
+    cy.wait(1000)
+    cy.clickSmallPlatter()
+    cy.wait(1000)
+    cy.clickFriedRice()
+    cy.clickBBQChicken()
+    cy.clickComboAddToCart('Small Platter')
+
+    cy.wait(1000)
 })
 
 describe('Visit cart, add small platter, and check in the cart', () => {
     it('Click small platter, choose fried rice and BBQ chicken, then check all information on the screen', () => {
-        cy.visit('http://localhost:8000/menu')
-        cy.wait(1000)
-        cy.clickSmallPlatter()
-        cy.wait(1000)
-        cy.clickFriedRice()
-        cy.clickBBQChicken()
-        cy.clickComboAddToCart('Small Platter')
-
-        cy.wait(1000)
-
         cy.get('#cart_count').contains('1')
 
         const sql = 'select * from products where name = "Small Platter"'
@@ -65,16 +63,6 @@ describe('Visit cart, add small platter, and check in the cart', () => {
     })
     
     it('Click small platter, choose fried rice and BBQ chicken, then click plus button one time', () => {
-        cy.visit('http://localhost:8000/menu')
-        cy.wait(1000)
-        cy.clickSmallPlatter()
-        cy.wait(1000)
-        cy.clickFriedRice()
-        cy.clickBBQChicken()
-        cy.clickComboAddToCart('Small Platter')
-
-        cy.wait(1000)
-
         const sql = 'select * from products where name = "Small Platter"'
         cy.task('queryDb', sql)
             .then((result) => {
@@ -106,16 +94,6 @@ describe('Visit cart, add small platter, and check in the cart', () => {
     })
 
     it('Click small platter, choose fried rice and BBQ chicken, then click plus button one time, then click minus button one time', () => {
-        cy.visit('http://localhost:8000/menu')
-        cy.wait(1000)
-        cy.clickSmallPlatter()
-        cy.wait(1000)
-        cy.clickFriedRice()
-        cy.clickBBQChicken()
-        cy.clickComboAddToCart('Small Platter')
-
-        cy.wait(1000)
-
         const sql = 'select * from products where name = "Small Platter"'
         cy.task('queryDb', sql)
             .then((result) => {
@@ -155,16 +133,6 @@ describe('Visit cart, add small platter, and check in the cart', () => {
     })
 
     it('Click small platter, choose fried rice and BBQ chicken, then click Remove button', () => {
-        cy.visit('http://localhost:8000/menu')
-        cy.wait(1000)
-        cy.clickSmallPlatter()
-        cy.wait(1000)
-        cy.clickFriedRice()
-        cy.clickBBQChicken()
-        cy.clickComboAddToCart('Small Platter')
-
-        cy.wait(1000)
-
         const sql = 'select * from products where name = "Small Platter"'
         cy.task('queryDb', sql)
             .then((result) => {
@@ -205,16 +173,6 @@ describe('Visit cart, add small platter, and check in the cart', () => {
     })
 
     it('Click small platter, choose fried rice and BBQ chicken, then click Edit button -- change quantity to 3, 2, then change to Fried Rice(half), Chow Mein(half), Black Pepper Chicken, then click Update button', () => {
-        cy.visit('http://localhost:8000/menu')
-        cy.wait(1000)
-        cy.clickSmallPlatter()
-        cy.wait(1000)
-        cy.clickFriedRice()
-        cy.clickBBQChicken()
-        cy.clickComboAddToCart('Small Platter')
-
-        cy.wait(1000)
-
         const sql = 'select * from products where name = "Small Platter"'
         cy.task('queryDb', sql)
             .then((result) => {
@@ -319,14 +277,6 @@ describe('Visit cart, add small platter, and check in the cart', () => {
     })
 
     it('Click small platter, choose fried rice and BBQ chicken, then click Add More Items to same item and subItems', () => {
-        cy.visit('http://localhost:8000/menu')
-        cy.wait(1000)
-        cy.clickSmallPlatter()
-        cy.wait(1000)
-        cy.clickFriedRice()
-        cy.clickBBQChicken()
-        cy.clickComboAddToCart('Small Platter')
-
         cy.get('.addMoreItems').click()
         cy.wait(1000)
         cy.clickSmallPlatter()
@@ -364,14 +314,6 @@ describe('Visit cart, add small platter, and check in the cart', () => {
     })
 
     it('Click small platter, choose fried rice and BBQ chicken, then click Add More Items to same item and but different subItems', () => {
-        cy.visit('http://localhost:8000/menu')
-        cy.wait(1000)
-        cy.clickSmallPlatter()
-        cy.wait(1000)
-        cy.clickFriedRice()
-        cy.clickBBQChicken()
-        cy.clickComboAddToCart('Small Platter')
-
         cy.get('.addMoreItems').click()
         cy.wait(1000)
         cy.clickSmallPlatter()
@@ -418,16 +360,6 @@ describe('Visit cart, add small platter, and check in the cart', () => {
     })
 
     it('Click small platter, choose fried rice and BBQ chicken, then click Empty Cart button, cancel to empty the cart', () => {
-        cy.visit('http://localhost:8000/menu')
-        cy.wait(1000)
-        cy.clickSmallPlatter()
-        cy.wait(1000)
-        cy.clickFriedRice()
-        cy.clickBBQChicken()
-        cy.clickComboAddToCart('Small Platter')
-
-        cy.wait(1000)
-
         const sql = 'select * from products where name = "Small Platter"'
         cy.task('queryDb', sql)
             .then((result) => {
@@ -465,16 +397,6 @@ describe('Visit cart, add small platter, and check in the cart', () => {
     })
 
     it('Click small platter, choose fried rice and BBQ chicken, then click Empty Cart button, ok to empty the cart', () => {
-        cy.visit('http://localhost:8000/menu')
-        cy.wait(1000)
-        cy.clickSmallPlatter()
-        cy.wait(1000)
-        cy.clickFriedRice()
-        cy.clickBBQChicken()
-        cy.clickComboAddToCart('Small Platter')
-
-        cy.wait(1000)
-
         const sql = 'select * from products where name = "Small Platter"'
         cy.task('queryDb', sql)
             .then((result) => {
@@ -512,16 +434,6 @@ describe('Visit cart, add small platter, and check in the cart', () => {
     })
 
     it('Click small platter, choose fried rice and BBQ chicken, then type "Not too spicy" for note and forgot to click Update Note button, then click Checkout button', () => {
-        cy.visit('http://localhost:8000/menu')
-        cy.wait(1000)
-        cy.clickSmallPlatter()
-        cy.wait(1000)
-        cy.clickFriedRice()
-        cy.clickBBQChicken()
-        cy.clickComboAddToCart('Small Platter')
-
-        cy.wait(1000)
-
         cy.get('#ordernote').type('Not too spicy')
         cy.get('#checkout').click()
         
@@ -531,17 +443,7 @@ describe('Visit cart, add small platter, and check in the cart', () => {
         cy.get('#ordernote').should('not.contain', 'Not too spicy')
     })
 
-    it.only('Click small platter, choose fried rice and BBQ chicken, then type "Not too spicy" for note and click Update Note button, then click Checkout button', () => {
-        cy.visit('http://localhost:8000/menu')
-        cy.wait(1000)
-        cy.clickSmallPlatter()
-        cy.wait(1000)
-        cy.clickFriedRice()
-        cy.clickBBQChicken()
-        cy.clickComboAddToCart('Small Platter')
-
-        cy.wait(1000)
-
+    it('Click small platter, choose fried rice and BBQ chicken, then type "Not too spicy" for note and click Update Note button, then click Checkout button', () => {
         cy.get('#ordernote').type('Not too spicy')
         cy.get('#updateNote').click()
 
