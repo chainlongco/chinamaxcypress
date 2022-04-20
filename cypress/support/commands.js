@@ -467,3 +467,455 @@ Cypress.Commands.add('selectFlavorForDrink', (drinkName, flavor) => {
         })    
 })
 // ***** Drinks end *****
+
+
+
+// ********** Click start **********
+// ***** Combo start *****
+Cypress.Commands.add('clickSmallPlatter', () => {
+    const sql = 'select id from products where name = "Small Platter"'
+    cy.task('queryDb', sql)
+        .then((result) => {
+            cy.get('#productItem' + result[0].id).click()
+        })
+})
+
+Cypress.Commands.add('clickRegularPlatter', () => {
+    const sql = 'select id from products where name = "Regular Platter"'
+    cy.task('queryDb', sql)
+        .then((result) => {
+            cy.get('#productItem' + result[0].id).click()
+        })
+})
+
+Cypress.Commands.add('clickLargePlatter', () => {
+    const sql = 'select id from products where name = "Large Platter"'
+    cy.task('queryDb', sql)
+        .then((result) => {
+            cy.get('#productItem' + result[0].id).click()
+        })
+})
+
+Cypress.Commands.add('clickPartyTray', () => {
+    const sql = 'select id from products where name = "Party Tray"'
+    cy.task('queryDb', sql)
+        .then((result) => {
+            cy.get('#productItem' + result[0].id).click()
+        })
+})
+
+Cypress.Commands.add('clickKidsMeal', () => {
+    const sql = 'select id from products where name = "' + "Kid's Meal" + '"'
+    cy.task('queryDb', sql)
+        .then((result) => {
+            cy.get('#productItem' + result[0].id).click()
+        })
+})
+
+Cypress.Commands.add('clickFriedRice', () => {
+    const sql = 'select id from sides where name = "Fried Rice"'
+    cy.task('queryDb', sql)
+        .then((result) => {
+            cy.get('#choiceItemSide' + result[0].id).click()
+        })
+})
+
+Cypress.Commands.add('clickChowMein', () => {
+    const sql = 'select id from sides where name = "Chow Mein"'
+    cy.task('queryDb', sql)
+        .then((result) => {
+            cy.get('#choiceItemSide' + result[0].id).click()
+        })
+})
+
+Cypress.Commands.add('clickSteamWhiteRice', () => {
+    const sql = 'select id from sides where name = "Steam White Rice"'
+    cy.task('queryDb', sql)
+        .then((result) => {
+            cy.get('#choiceItemSide' + result[0].id).click()
+        })
+})
+
+Cypress.Commands.add('clickBBQChicken', () => {
+    const sql = 'select id from entrees where name = "BBQ Chicken"'
+    cy.task('queryDb', sql)
+        .then((result) => {
+            cy.get('#choiceItemEntree' + result[0].id).click()
+        })
+})
+
+Cypress.Commands.add('clickBlackPepperChicken', () => {
+    const sql = 'select id from entrees where name = "Black Pepper Chicken"'
+    cy.task('queryDb', sql)
+        .then((result) => {
+            cy.get('#choiceItemEntree' + result[0].id).click()
+        })
+})
+
+Cypress.Commands.add('clickJalapenoChicken', () => {
+    const sql = 'select id from entrees where name = "Jalapeno Chicken"'
+    cy.task('queryDb', sql)
+        .then((result) => {
+            cy.get('#choiceItemEntree' + result[0].id).click()
+        })
+})
+
+Cypress.Commands.add('clickKungPaoChicken', () => {
+    const sql = 'select id from entrees where name = "Kung Pao Chicken"'
+    cy.task('queryDb', sql)
+        .then((result) => {
+            cy.get('#choiceItemEntree' + result[0].id).click()
+        })
+})
+
+Cypress.Commands.add('clickMushroomChicken', () => {
+    const sql = 'select id from entrees where name = "Mushroom Chicken"'
+    cy.task('queryDb', sql)
+        .then((result) => {
+            cy.get('#choiceItemEntree' + result[0].id).click()
+        })
+})
+
+Cypress.Commands.add('clickOrangeChicken', () => {
+    const sql = 'select id from entrees where name = "Orange Chicken"'
+    cy.task('queryDb', sql)
+        .then((result) => {
+            cy.get('#choiceItemEntree' + result[0].id).click()
+        })
+})
+
+Cypress.Commands.add('clickStringBeanChicken', () => {
+    const sql = 'select id from entrees where name = "String Bean Chicken"'
+    cy.task('queryDb', sql)
+        .then((result) => {
+            cy.get('#choiceItemEntree' + result[0].id).click()
+        })
+})
+
+Cypress.Commands.add('clickTeriyakiChicken', () => {
+    const sql = 'select id from entrees where name = "Teriyaki Chicken"'
+    cy.task('queryDb', sql)
+        .then((result) => {
+            cy.get('#choiceItemEntree' + result[0].id).click()
+        })
+})
+
+Cypress.Commands.add('clickBeefBroccoli', () => {
+    const sql = 'select id from entrees where name = "Beef Broccoli"'
+    cy.task('queryDb', sql)
+        .then((result) => {
+            cy.get('#choiceItemEntree' + result[0].id).click()
+        })
+})
+
+Cypress.Commands.add('clickHunanBeef', () => {
+    const sql = 'select id from entrees where name = "Hunan Beef"'
+    cy.task('queryDb', sql)
+        .then((result) => {
+            cy.get('#choiceItemEntree' + result[0].id).click()
+        })
+})
+
+Cypress.Commands.add('clickPepperSteak', () => {
+    const sql = 'select id from entrees where name = "Pepper Steak"'
+    cy.task('queryDb', sql)
+        .then((result) => {
+            cy.get('#choiceItemEntree' + result[0].id).click()
+        })
+})
+
+Cypress.Commands.add('clickBroccoliShrimp', () => {
+    const sql = 'select id from entrees where name = "Broccoli Shrimp"'
+    cy.task('queryDb', sql)
+        .then((result) => {
+            cy.get('#choiceItemEntree' + result[0].id).click()
+        })
+})
+
+Cypress.Commands.add('clickKungPaoShrimp', () => {
+    const sql = 'select id from entrees where name = "Kung Pao Shrimp"'
+    cy.task('queryDb', sql)
+        .then((result) => {
+            cy.get('#choiceItemEntree' + result[0].id).click()
+        })
+})
+
+Cypress.Commands.add('clickBottleWater', () => {
+    const sql = 'select id from combodrinks where name = "Bottle Water"'
+    cy.task('queryDb', sql)
+        .then((result) => {
+            cy.get('#choiceItemDrink' + result[0].id).click()
+        })
+})
+
+Cypress.Commands.add('selectComboSmallDrinkFlavor', (flavorName) => {
+    const sql = 'select id from combodrinks where name = "Small Drink"'
+    cy.task('queryDb', sql)
+        .then((result) => {
+            cy.get('#comboDrink' + result[0].id).select(flavorName)
+        })
+})
+
+Cypress.Commands.add('clickComboPlus', (comboName) => {
+    const sql = 'select id from products where name = "' + comboName + '"'
+    cy.task('queryDb', sql)
+        .then((result) => {
+            cy.get('#quantityPlus' + result[0].id).click()
+        })
+})
+
+Cypress.Commands.add('clickComboMinus', (comboName) => {
+    const sql = 'select id from products where name = "' + comboName + '"'
+    cy.task('queryDb', sql)
+        .then((result) => {
+            cy.get('#quantityMinus' + result[0].id).click()
+        })
+})
+
+Cypress.Commands.add('clickComboAddToCart', (comboName) => {
+    const sql = 'select id from products where name = "' + comboName + '"'
+    cy.task('queryDb', sql)
+        .then((result) => {
+            cy.get('#addToCartForCombo' + result[0].id).click()
+        })
+})
+// ***** Combo end *****
+
+// ***** Appetizers start *****
+Cypress.Commands.add('clickAppetizers', () => {
+    const sql = 'select id from menus where name = "Appetizers"'
+    cy.task('queryDb', sql)
+        .then((result) => {
+            cy.get('#menuItem' + result[0].id).click()
+        })
+})
+
+Cypress.Commands.add('clickAppetizersPlus', (appetizerName) => {
+    const sql = 'select id from products where name = "' + appetizerName + '"'
+    cy.task('queryDb', sql)
+        .then((result) => {
+            cy.get('#quantityPlus' + result[0].id).click()
+        })
+})
+
+Cypress.Commands.add('clickAppetizersMinus', (appetizerName) => {
+    const sql = 'select id from products where name = "' + appetizerName + '"'
+    cy.task('queryDb', sql)
+        .then((result) => {
+            cy.get('#quantityMinus' + result[0].id).click()
+        })
+})
+
+Cypress.Commands.add('clickAppetizersAddToCart', (appetizerName) => {
+    const sql = 'select id from products where name = "' + appetizerName + '"'
+    cy.task('queryDb', sql)
+        .then((result) => {
+            cy.get('#addToCart' + result[0].id).click()
+        })
+})
+// ***** Appetizers end *****
+
+// ***** Drinks start *****
+Cypress.Commands.add('clickDrinks', () => {
+    const sql = 'select id from menus where name = "Drinks"'
+    cy.task('queryDb', sql)
+        .then((result) => {
+            cy.get('#menuItem' + result[0].id).click()
+        })
+})
+
+Cypress.Commands.add('selectCannedDrinkFlavor', (flavorName) => {
+    const sql = 'select id from drinks where name = "Canned Drink"'
+    cy.task('queryDb', sql)
+        .then((result) => {
+            cy.get('#selectDrink' + result[0].id).select(flavorName)
+        })
+})
+
+Cypress.Commands.add('selectFountainDrinkFlavor', (flavorName) => {
+    const sql = 'select id from drinks where name = "Fountain Drink"'
+    cy.task('queryDb', sql)
+        .then((result) => {
+            cy.get('#selectDrink' + result[0].id).select(flavorName)
+        })
+})
+
+Cypress.Commands.add('selectFreshJuiceFlavor', (flavorName) => {
+    const sql = 'select id from drinks where name = "Fresh Juice"'
+    cy.task('queryDb', sql)
+        .then((result) => {
+            cy.get('#selectDrink' + result[0].id).select(flavorName)
+        })
+})
+
+Cypress.Commands.add('selectFountainDrinkSize', (sizeName) => {
+    const sql = 'select id from drinks where name = "Fountain Drink"'
+    cy.task('queryDb', sql)
+        .then((result) => {
+            cy.get('#productDrink' + result[0].id).select(sizeName)
+        })
+})
+
+Cypress.Commands.add('selectFreshJuiceSize', (sizeName) => {
+    const sql = 'select id from drinks where name = "Fresh Juice"'
+    cy.task('queryDb', sql)
+        .then((result) => {
+            cy.get('#productDrink' + result[0].id).select(sizeName)
+        })
+})
+
+Cypress.Commands.add('clickDrinksPlus', (drinkName) => {
+    const sql = 'select id from drinks where name = "' + drinkName + '"'
+    cy.task('queryDb', sql)
+        .then((result) => {
+            cy.get('#quantityPlus' + result[0].id).click()
+        })
+})
+
+Cypress.Commands.add('clickDrinksMinus', (drinkName) => {
+    const sql = 'select id from drinks where name = "' + drinkName + '"'
+    cy.task('queryDb', sql)
+        .then((result) => {
+            cy.get('#quantityMinus' + result[0].id).click()
+        })
+})
+
+Cypress.Commands.add('clickDrinksAddToCart', (drinkName) => {
+    const sql = 'select id from drinks where name = "' + drinkName + '"'
+    cy.task('queryDb', sql)
+        .then((result) => {
+            cy.get('#addToCartForDrinkOnly' + result[0].id).click()
+        })
+})
+// ***** Drinks end *****
+
+// ***** Individule Side start *****
+Cypress.Commands.add('clickSide', () => {
+    const sql = 'select id from singles where name = "Side"'
+    cy.task('queryDb', sql)
+        .then((result) => {
+            cy.get('#singleItem' + result[0].id).click()
+        })
+})
+
+Cypress.Commands.add('selectSideSize', (sideName, sizeName) => {
+    const sql = 'select id from sides where name = "' + sideName + '"'
+    cy.task('queryDb', sql)
+        .then((result) => {
+            cy.get('#productSide' + result[0].id).select(sizeName)
+        })
+})
+
+Cypress.Commands.add('clickSidePlus', (sideName) => {
+    const sql = 'select id from sides where name = "' + sideName + '"'
+    cy.task('queryDb', sql)
+        .then((result) => {
+            cy.get('#quantityPlus' + result[0].id).click()
+        })
+})
+
+Cypress.Commands.add('clickSideMinus', (sideName) => {
+    const sql = 'select id from sides where name = "' + sideName + '"'
+    cy.task('queryDb', sql)
+        .then((result) => {
+            cy.get('#quantityMinus' + result[0].id).click()
+        })
+})
+
+Cypress.Commands.add('clickSideAddToCart', () => {
+    const sql = 'select id from sides where name = "' + sideName + '"'
+    cy.task('queryDb', sql)
+        .then((result) => {
+            cy.get('#addToCartForSide' + result[0].id).click()
+        })
+})
+// ***** Individule Side End *****
+
+// ***** Individule Entree start *****
+Cypress.Commands.add('clickChickenEntree', () => {
+    const sql = 'select id from singles where name = "Chicken Entree"'
+    cy.task('queryDb', sql)
+        .then((result) => {
+            cy.get('#singleItem' + result[0].id).click()
+        })
+})
+
+Cypress.Commands.add('clickBeefEntree', () => {
+    const sql = 'select id from singles where name = "Beef Entree"'
+    cy.task('queryDb', sql)
+        .then((result) => {
+            cy.get('#singleItem' + result[0].id).click()
+        })
+})
+
+Cypress.Commands.add('clickShrimpEntree', () => {
+    const sql = 'select id from singles where name = "Shrimp Entree"'
+    cy.task('queryDb', sql)
+        .then((result) => {
+            cy.get('#singleItem' + result[0].id).click()
+        })
+})
+
+Cypress.Commands.add('selectEntreeSize', (entreeName, sizeName) => {
+    const sql = 'select id from sides where name = "' + entreeName + '"'
+    cy.task('queryDb', sql)
+        .then((result) => {
+            cy.get('#productEntree' + result[0].id).select(sizeName)
+        })
+})
+
+Cypress.Commands.add('clickEntreePlus', (entreeName) => {
+    const sql = 'select id from entrees where name = "' + entreeName + '"'
+    cy.task('queryDb', sql)
+        .then((result) => {
+            cy.get('#quantityPlus' + result[0].id).click()
+        })
+})
+
+Cypress.Commands.add('clickEntreeMinus', (entreeName) => {
+    const sql = 'select id from sides where name = "' + entreeName + '"'
+    cy.task('queryDb', sql)
+        .then((result) => {
+            cy.get('#quantityMinus' + result[0].id).click()
+        })
+})
+
+Cypress.Commands.add('clickEntreeAddToCart', () => {
+    const sql = 'select id from entrees where name = "' + entreeName + '"'
+    cy.task('queryDb', sql)
+        .then((result) => {
+            cy.get('#addToCartForEntree' + result[0].id).click()
+        })
+})
+// ***** Individule Entree end *****
+// ********** Click end **********
+
+// ********** Login User start **********
+// ***** Login as Admin start *****
+Cypress.Commands.add('LoginAsAdmin', () => {
+    cy.visit('http://localhost:8000/login')
+    cy.get('#email').type('Admin@yahoo.com')
+    cy.get('#password').type('1234')
+    cy.get('#submitLogin').click()
+    cy.wait(1000)
+})
+// ***** Login as Admin end *****
+// ***** Login as Manager start *****
+Cypress.Commands.add('LoginAsManager', () => {
+    cy.visit('http://localhost:8000/login')
+    cy.get('#email').type('Manager@yahoo.com')
+    cy.get('#password').type('1234')
+    cy.get('#submitLogin').click()
+    cy.wait(1000)
+})
+// ***** Login as Manager end *****
+// ***** Login as Employee start *****
+Cypress.Commands.add('LoginAsEmployee', () => {
+    cy.visit('http://localhost:8000/login')
+    cy.get('#email').type('Employee@yahoo.com')
+    cy.get('#password').type('1234')
+    cy.get('#submitLogin').click()
+    cy.wait(1000)
+})
+// ***** Login as Employee end *****
+// ********** Login User end **********
