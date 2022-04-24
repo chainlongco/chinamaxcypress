@@ -749,18 +749,28 @@ Cypress.Commands.add('selectFreshJuiceFlavor', (flavorName) => {
 })
 
 Cypress.Commands.add('selectFountainDrinkSize', (sizeName) => {
-    const sql = 'select id from drinks where name = "Fountain Drink"'
-    cy.task('queryDb', sql)
-        .then((result) => {
-            cy.get('#productDrink' + result[0].id).select(sizeName)
+    const sqlProducts = 'select * from products where name = "Fountain Soft Drink ' + sizeName + '"'
+    cy.task('queryDb', sqlProducts)
+        .then((resultProducts) => {
+            const sqlDrinks = 'select id from drinks where name = "Fountain Drink"'
+            cy.task('queryDb', sqlDrinks)
+                .then((resultDrinks) => {
+                    const selectName = resultProducts[0].name + ' - $' + resultProducts[0].price
+                    cy.get('#productDrinks' + resultDrinks[0].id).select(selectName)
+                })
         })
 })
 
 Cypress.Commands.add('selectFreshJuiceSize', (sizeName) => {
-    const sql = 'select id from drinks where name = "Fresh Juice"'
-    cy.task('queryDb', sql)
-        .then((result) => {
-            cy.get('#productDrink' + result[0].id).select(sizeName)
+    const sqlProducts = 'select * from products where name = "' + sizeName + ' Fresh Fruit Juice"'
+    cy.task('queryDb', sqlProducts)
+        .then((resultProducts) => {
+            const sqlDrinks = 'select id from drinks where name = "Fresh Juice"'
+            cy.task('queryDb', sqlDrinks)
+                .then((resultDrinks) => {
+                    const selectName = resultProducts[0].name + ' - $' + resultProducts[0].price
+                    cy.get('#productDrinks' + resultDrinks[0].id).select(selectName)
+                })
         })
 })
 
