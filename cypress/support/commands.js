@@ -809,11 +809,17 @@ Cypress.Commands.add('clickSide', () => {
 })
 
 Cypress.Commands.add('selectSideSize', (sideName, sizeName) => {
-    const sql = 'select id from sides where name = "' + sideName + '"'
-    cy.task('queryDb', sql)
-        .then((result) => {
-            cy.get('#productSide' + result[0].id).select(sizeName)
+    const sqlProducts = 'select * from products where name = "' + sizeName + ' Side"'
+    cy.task('queryDb', sqlProducts)
+        .then((resultProducts) => {
+            const sqlSides = 'select id from sides where name = "' + sideName + '"'
+            cy.task('queryDb', sqlSides)
+                .then((resultSides) => {
+                    const selectName = resultProducts[0].name + ' - $' + resultProducts[0].price
+                    cy.get('#productSides' + resultSides[0].id).select(selectName)
+                })
         })
+    
 })
 
 Cypress.Commands.add('clickSidePlus', (sideName) => {
@@ -832,7 +838,7 @@ Cypress.Commands.add('clickSideMinus', (sideName) => {
         })
 })
 
-Cypress.Commands.add('clickSideAddToCart', () => {
+Cypress.Commands.add('clickSideAddToCart', (sideName) => {
     const sql = 'select id from sides where name = "' + sideName + '"'
     cy.task('queryDb', sql)
         .then((result) => {
@@ -866,11 +872,42 @@ Cypress.Commands.add('clickShrimpEntree', () => {
         })
 })
 
-Cypress.Commands.add('selectEntreeSize', (entreeName, sizeName) => {
-    const sql = 'select id from sides where name = "' + entreeName + '"'
-    cy.task('queryDb', sql)
-        .then((result) => {
-            cy.get('#productEntree' + result[0].id).select(sizeName)
+Cypress.Commands.add('selectChickenEntreeSize', (entreeName, sizeName) => {
+    const sqlProducts = 'select * from products where name = "' + sizeName + ' Chicken"'
+    cy.task('queryDb', sqlProducts)
+        .then((resultProducts) => {
+            const sqlEntrees = 'select id from entrees where name = "' + entreeName + '"'
+            cy.task('queryDb', sqlEntrees)
+                .then((resultEntrees) => {
+                    const selectName = sizeName + " Chicken - $" + resultProducts[0].price
+                    cy.get('#productEntrees' + resultEntrees[0].id).select(selectName)
+                })
+        })
+})
+
+Cypress.Commands.add('selectBeefEntreeSize', (entreeName, sizeName) => {
+    const sqlProducts = 'select * from products where name = "' + sizeName + ' Beef"'
+    cy.task('queryDb', sqlProducts)
+        .then((resultProducts) => {
+            const sqlEntrees = 'select id from entrees where name = "' + entreeName + '"'
+            cy.task('queryDb', sqlEntrees)
+                .then((resultEntrees) => {
+                    const selectName = sizeName + " Beef - $" + resultProducts[0].price
+                    cy.get('#productEntrees' + resultEntrees[0].id).select(selectName)
+                })
+        })
+})
+
+Cypress.Commands.add('selectShrimpEntreeSize', (entreeName, sizeName) => {
+    const sqlProducts = 'select * from products where name = "' + sizeName + ' Shrimp"'
+    cy.task('queryDb', sqlProducts)
+        .then((resultProducts) => {
+            const sqlEntrees = 'select id from entrees where name = "' + entreeName + '"'
+            cy.task('queryDb', sqlEntrees)
+                .then((resultEntrees) => {
+                    const selectName = sizeName + " Shrimp - $" + resultProducts[0].price
+                    cy.get('#productEntrees' + resultEntrees[0].id).select(selectName)
+                })
         })
 })
 
@@ -883,14 +920,14 @@ Cypress.Commands.add('clickEntreePlus', (entreeName) => {
 })
 
 Cypress.Commands.add('clickEntreeMinus', (entreeName) => {
-    const sql = 'select id from sides where name = "' + entreeName + '"'
+    const sql = 'select id from entrees where name = "' + entreeName + '"'
     cy.task('queryDb', sql)
         .then((result) => {
             cy.get('#quantityMinus' + result[0].id).click()
         })
 })
 
-Cypress.Commands.add('clickEntreeAddToCart', () => {
+Cypress.Commands.add('clickEntreeAddToCart', (entreeName) => {
     const sql = 'select id from entrees where name = "' + entreeName + '"'
     cy.task('queryDb', sql)
         .then((result) => {
