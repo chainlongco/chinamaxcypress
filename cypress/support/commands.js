@@ -552,6 +552,14 @@ Cypress.Commands.add('clickBlackPepperChicken', () => {
         })
 })
 
+Cypress.Commands.add('clickGeneralTaosChicken', () => {
+    const sql = 'select id from entrees where name = "General Taos Chicken"'
+    cy.task('queryDb', sql)
+        .then((result) => {
+            cy.get('#choiceItemEntree' + result[0].id).click()
+        })
+})
+
 Cypress.Commands.add('clickJalapenoChicken', () => {
     const sql = 'select id from entrees where name = "Jalapeno Chicken"'
     cy.task('queryDb', sql)
