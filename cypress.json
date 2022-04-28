@@ -1,11 +1,12 @@
 {
-    "env": {
-        "db": {
-            "user": "root",
-            "host": "localhost",
-            "database": "chinamax",
-            "password": "",
-            "port": 3306
-        }
+  "env": {
+    "db": {
+      "user": "root",
+      "host": "localhost",
+      "database": "chinamax",
+      "password": "",
+      "port": 3306
     }
+  },
+  "projectId": "9snys4"
 }

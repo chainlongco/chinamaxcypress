@@ -33,7 +33,7 @@ Cypress.Commands.add('clickAndCheckComboIsHighlighted', (comboName) => {
             cy.get('#productItem' + id).click()
             cy.wait(1000)
             cy.get('#productItem' + id).should('have.css', 'border', '5px solid rgb(255, 0, 0)')    // red
-            cy.get('#orderChoices > h1').contains(comboName)
+            cy.get('#orderChoices').contains(comboName)
         });
 })
 
@@ -176,7 +176,7 @@ Cypress.Commands.add('clickAndCheckSingleIsHighlighted', (singleName) => {
             cy.get('#singleItem' + id).click()
             cy.wait(1000)
             cy.get('#singleItem' + id).should('have.css', 'border', '5px solid rgb(255, 0, 0)')    // red
-            cy.get('#orderChoices > h1').contains(singleName)
+            cy.get('#orderChoices').contains(singleName)
         });
 })
 
@@ -442,7 +442,7 @@ Cypress.Commands.add('clickAndCheckAppetizersIsHighlighted', () => {
             cy.get('#eachMenu' + id).click()
             cy.wait(1000)
             cy.get('#menuItem' + id).should('have.css', 'border', '5px solid rgb(255, 0, 0)')
-            cy.get('#orderChoices > h1').contains('Appetizers')
+            cy.get('#orderChoices').contains('Appetizers')
         })
 })
 // ***** Appetizers end *****
@@ -456,7 +456,7 @@ Cypress.Commands.add('clickAndCheckDrinksIsHighlighted', () => {
             cy.get('#eachMenu' + id).click()
             cy.wait(1000)
             cy.get('#menuItem' + id).should('have.css', 'border', '5px solid rgb(255, 0, 0)')
-            cy.get('#orderChoices > h1').contains('Drinks')
+            cy.get('#orderChoices').contains('Drinks')
         })
 })
 
