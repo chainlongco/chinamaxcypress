@@ -975,3 +975,80 @@ Cypress.Commands.add('LoginAsEmployee', () => {
 })
 // ***** Login as Employee end *****
 // ********** Login User end **********
+
+// ********** Customer Chain Long start **********
+// ***** Register customer Chain Long start *****
+Cypress.Commands.add('RegisterCustomerChainLong', () => {
+    cy.visit('http://localhost:8000/customerRegister')
+    cy.wait(1000)
+    cy.get('#firstname').type('Chain')
+    cy.get('#lastname').type('Long')
+    cy.get('#phone').type('214-680-8281')
+    cy.get('#email').type('ChainLongCo@gmail.com')
+    cy.get('#password').type('1234')
+    cy.get('#submitCustomerSignup').click()
+    cy.wait(2000)
+    const sqlCustomers = 'select count(*) as total from customers where email = "ChainLongCo@gmail.com"'
+    cy.task('queryDb', sqlCustomers)
+        .then((resultCustomers) => {
+            expect(resultCustomers[0].total).to.eq(1)
+        })
+})
+// ***** Register customer Chain Long end *****
+// ***** Update customer Chain Long start *****
+Cypress.Commands.add('UpdateCustomerChainLong', () => {
+    cy.visit('http://localhost:8000/customer/list')
+    cy.wait(1000)
+    cy.get('#customersDatatable_filter > label > input[type=search]').type('ChainLongCo@gmail.com')
+    cy.get('#customersDatatable > tbody > tr > td:nth-child(5) > div > a.col-md-5.btn.btn-primary').click()
+    cy.wait(1000)
+    //cy.get('#firstname').type('Chain1')
+    //cy.get('#lastname').type('Long1')
+    //cy.get('#phone').type('214-680-8281')
+    //cy.get('#email').type('ChainLongCo@gmail.com')
+    cy.get('#address1').type('4436 Laurel Springs ct')
+    cy.get('#address2').type('Suite 100')
+    cy.get('#city').type('Colleyville')
+    cy.get('#state').type('TX')
+    cy.get('#zip').type('75115')
+    cy.get('#card').type('1234567890123456')
+    cy.get('#expired').type('1226')
+    cy.get('#cvv').type('123')
+    cy.wait(1000)
+    cy.get('#submitCustomer').click()
+    cy.wait(2000)
+    const sqlCustomers = 'select count(*) as total from customers where email = "ChainLongCo@gmail.com"'
+    cy.task('queryDb', sqlCustomers)
+        .then((resultCustomers) => {
+            expect(resultCustomers[0].total).to.eq(1)
+        })
+})
+// ***** Update customer Chain Long end *****
+// ***** Login customer Chain Long start *****
+Cypress.Commands.add('LoginCustomerChainLong', () => {
+    cy.visit('http://localhost:8000/customerLogin')
+    cy.wait(1000)
+    cy.get('#email').type('ChainLongCo@gmail.com')
+    cy.get('#password').type('1234')
+    cy.get('#submitLogin').click()
+    cy.wait(2000)
+})
+// ***** Logout customer Chain Long start *****
+Cypress.Commands.add('LogoutCustomerChainLong', () => {
+    cy.get('#navbarDropdownCustomerLoginned').click()
+    cy.wait(1000)
+    cy.get('#customerLogin > ul > li > a').click()
+    cy.url('http://localhost:8000/customerLogin')
+    cy.wait(1000)
+})
+// ***** Login customer Chain Long end *****
+// ***** Delete customer Chain Long start *****
+Cypress.Commands.add('DeleteCustomerChainLong', () => {
+    const sqlChainLong = 'delete from customers where email = "ChainLongCo@gmail.com"'
+    cy.task('queryDb', sqlChainLong)
+        .then((resultChainLong) => {
+            expect(resultChainLong.affectedRows).to.eq(1)
+        })
+})
+// ***** Delete customer Chain Long end *****
+// ********** Customer Chain Long end **********
