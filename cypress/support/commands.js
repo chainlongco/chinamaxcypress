@@ -1002,18 +1002,18 @@ Cypress.Commands.add('UpdateCustomerChainLong', () => {
     cy.get('#customersDatatable_filter > label > input[type=search]').type('ChainLongCo@gmail.com')
     cy.get('#customersDatatable > tbody > tr > td:nth-child(5) > div > a.col-md-5.btn.btn-primary').click()
     cy.wait(1000)
-    //cy.get('#firstname').type('Chain1')
-    //cy.get('#lastname').type('Long1')
-    //cy.get('#phone').type('214-680-8281')
-    //cy.get('#email').type('ChainLongCo@gmail.com')
-    cy.get('#address1').type('4436 Laurel Springs ct')
-    cy.get('#address2').type('Suite 100')
-    cy.get('#city').type('Colleyville')
-    cy.get('#state').type('TX')
-    cy.get('#zip').type('75115')
-    cy.get('#card').type('1234567890123456')
-    cy.get('#expired').type('1226')
-    cy.get('#cvv').type('123')
+    cy.get('#firstname').clear().type('Chain')
+    cy.get('#lastname').clear().type('Long')
+    cy.get('#phone').clear().type('214-680-8281')
+    cy.get('#email').clear().type('ChainLongCo@gmail.com')
+    cy.get('#address1').clear().type('4436 Laurel Springs ct')
+    cy.get('#address2').clear().type('Suite 100')
+    cy.get('#city').clear().type('Colleyville')
+    cy.get('#state').clear().type('TX')
+    cy.get('#zip').clear().type('75115')
+    cy.get('#card').clear().type('1234567890123456')
+    cy.get('#expired').clear().type('1226')
+    cy.get('#cvv').clear().type('123')
     cy.wait(1000)
     cy.get('#submitCustomer').click()
     cy.wait(2000)
@@ -1052,3 +1052,163 @@ Cypress.Commands.add('DeleteCustomerChainLong', () => {
 })
 // ***** Delete customer Chain Long end *****
 // ********** Customer Chain Long end **********
+
+// ********** Database data start **********
+// ***** Combo Regular platter start *****
+Cypress.Commands.add('RetrieveRegularPlatterData', () => {
+    const sqlProductsRegularPlatter = 'select * from products where name = "Regular Platter"'
+    cy.task('queryDb', sqlProductsRegularPlatter)
+        .then((resultProductsRegularPlatter) => {
+            const id = resultProductsRegularPlatter[0].id
+            cy.wrap(id).as('regularPlatterId')
+            const name = resultProductsRegularPlatter[0].name
+            cy.wrap(name).as('regularPlatterName')
+            const description = resultProductsRegularPlatter[0].description
+            cy.wrap(description).as('regularPlatterDescription')
+            const gallery = resultProductsRegularPlatter[0].gallery
+            cy.wrap(gallery).as('regularPlatterGallery')
+            const category = resultProductsRegularPlatter[0].category
+            cy.wrap(category).as('regularPlatterCategory')
+            const price = resultProductsRegularPlatter[0].price
+            cy.wrap(price).as('regularPlatterPrice')
+            const menuId = resultProductsRegularPlatter[0].menu_id
+            cy.wrap(menuId).as('regularPlatterMenuId')
+        })
+})
+// ***** Combo Regular platter end *****
+
+// ***** Appetizers start*****
+// ***** Fried Dumpling (5) start *****
+Cypress.Commands.add('RetrieveFriedDumplingData', () => {
+    const sqlProductsFriedDumpling = 'select * from products where name = "Fried Dumpling (5)"'
+    cy.task('queryDb', sqlProductsFriedDumpling)
+        .then((resultProductsFriedDumpling) => {
+            const id = resultProductsFriedDumpling[0].id
+            cy.wrap(id).as('friedDumplingId')
+            const name = resultProductsFriedDumpling[0].name
+            cy.wrap(name).as('friedDumplingName')
+            const description = resultProductsFriedDumpling[0].description
+            cy.wrap(description).as('friedDumplingDescription')
+            const gallery = resultProductsFriedDumpling[0].gallery
+            cy.wrap(gallery).as('friedDumplingGallery')
+            const category = resultProductsFriedDumpling[0].category
+            cy.wrap(category).as('friedDumplingCategory')
+            const price = resultProductsFriedDumpling[0].price
+            cy.wrap(price).as('friedDumplingPrice')
+            const menuId = resultProductsFriedDumpling[0].menu_id
+            cy.wrap(menuId).as('friedDumplingMenuId')
+        })
+    })    
+// ***** Fried Dumpling (5) end *****
+// ***** Appetizers end *****
+
+// ***** Order start*****
+// ***** Orders start *****
+Cypress.Commands.add('RetrieveLatestCreatedOrdersData', () => {
+    const sqlOrders = 'select * from orders order by id DESC';
+    cy.task('queryDb', sqlOrders)
+        .then((resultOrders) => {
+            const id = resultOrders[0].id
+            cy.wrap(id).as('ordersIdForCreated')
+            const customerId = resultOrders[0].customer_id
+            cy.wrap(customerId).as('ordersCustomerIdForCreated')
+            const quantity = resultOrders[0].quantity
+            cy.wrap(quantity).as('ordersQuantityForCreated')
+            const total = resultOrders[0].total
+            cy.wrap(total).as('ordersTotalForCreated')
+            const note = resultOrders[0].note
+            cy.wrap(note).as('ordersNoteForCreated')
+            const createdAt = cy.chinamax.formatDateTime(resultOrders[0].created_at)
+            cy.wrap(createdAt).as('ordersCreatedAtForCreated')
+            const updatedAt = cy.chinamax.formatDateTime(resultOrders[0].updated_at)
+            cy.wrap(updatedAt).as('ordersUpdatedAtForCreated')
+        })
+    })
+
+Cypress.Commands.add('RetrieveLatestUpdatedOrdersData', () => {
+    const sqlOrders = 'select * from orders order by updated_at DESC';
+    cy.task('queryDb', sqlOrders)
+        .then((resultOrders) => {
+            const id = resultOrders[0].id
+            cy.wrap(id).as('ordersIdForUpdated')
+            const customerId = resultOrders[0].customer_id
+            cy.wrap(customerId).as('ordersCustomerIdForUpdated')
+            const quantity = resultOrders[0].quantity
+            cy.wrap(quantity).as('ordersQuantityForUpdated')
+            const total = resultOrders[0].total
+            cy.wrap(total).as('ordersTotalForUpdated')
+            const note = resultOrders[0].note
+            cy.wrap(note).as('ordersNoteForUpdated')
+            const createdAt = cy.chinamax.formatDateTime(resultOrders[0].created_at)
+            cy.wrap(createdAt).as('ordersCreatedAtForUpdated')
+            const updatedAt = cy.chinamax.formatDateTime(resultOrders[0].updated_at)
+            cy.wrap(updatedAt).as('ordersUpdatedAtForUpdated')
+        })
+    })    
+// ***** Orders end *****
+// ***** Order end*****
+
+// ***** Restaurants start *****
+Cypress.Commands.add('RetrieveRestaurantsData', () => {
+    const sqlRestaurants = 'select tax_rate from restaurants'
+    cy.task('queryDb', sqlRestaurants)
+        .then((resultRestaurants) => {
+            const id = resultRestaurants[0].id
+            cy.wrap(id).as('restaurantsId')
+            const yearFounded = resultRestaurants[0].year_founded
+            cy.wrap(yearFounded).as('restaurantsYearFounded')
+            const taxRate = resultRestaurants[0].tax_rate
+            cy.wrap(taxRate).as('restaurantsTaxRate')
+            const phone = cy.chinamax.formatPhoneNumber(resultRestaurants[0].phone)
+            cy.wrap(phone).as('restaurantsPhone')
+            const email = resultRestaurants[0].email
+            cy.wrap(email).as('restaurantsEmail')
+            const address1 = resultRestaurants[0].address1
+            cy.wrap(address1).as('restaurantsAddress1')
+            const address2 = resultRestaurants[0].address2
+            cy.wrap(address2).as('restaurantsAddress2')
+            const city = resultRestaurants[0].city
+            cy.wrap(city).as('restaurantsCity')
+            const state = resultRestaurants[0].state
+            cy.wrap(state).as('restaurantsState')
+            const zip = resultRestaurants[0].zip
+            cy.wrap(zip).as('restaurantsZip')
+        })
+})
+// ***** Restaurants end *****
+
+// ***** Customers start *****
+Cypress.Commands.add('RetrieveCustomersChainLongData', () => {
+    const sqlCustomers = 'select * from customers where email = "ChainLongCo@gmail.com"'
+    cy.task('queryDb', sqlCustomers)
+        .then((resultCustomers) => {
+            const id = resultCustomers[0].id
+            cy.wrap(id).as('customersId')
+            const firstName = resultCustomers[0].first_name
+            cy.wrap(firstName).as('customersChainLongFirstName')
+            const lastName = resultCustomers[0].last_name
+            cy.wrap(lastName).as('customersChainLongLastName')
+            const phone = cy.chinamax.formatPhoneNumber(resultCustomers[0].phone)
+            cy.wrap(phone).as('customersChainLongPhone')
+            const email = resultCustomers[0].email
+            cy.wrap(email).as('customersChainLongEmail')
+            const address1 = resultCustomers[0].address1
+            cy.wrap(address1).as('customersChainLongAddress1')
+            const address2 = resultCustomers[0].address2
+            cy.wrap(address2).as('customersChainLongAddress2')
+            const city = resultCustomers[0].city
+            cy.wrap(city).as('customersChainLongCity')
+            const state = resultCustomers[0].state
+            cy.wrap(state).as('customersChainLongState')
+            const zip = resultCustomers[0].zip
+            cy.wrap(zip).as('customersChainLongZip')
+            const cardNumber = resultCustomers[0].card_number
+            cy.wrap(cardNumber).as('customersChainLongCardNumber')
+            const expired = resultCustomers[0].expired
+            cy.wrap(expired).as('customersChainLongExpired')
+            const cvv = resultCustomers[0].cvv
+            cy.wrap(cvv).as('customersChainLongCVV')
+        })
+})
+// ***** Restaurants end *****
+// ********** Database data end **********

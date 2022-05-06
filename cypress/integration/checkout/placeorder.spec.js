@@ -58,6 +58,17 @@ describe('Visit checkout, click login button and place order', () => {
                         cy.get('#ordersDatatable > tbody > tr > td:nth-child(5)').contains("1")      
                         cy.get('#ordersDatatable > tbody > tr > td:nth-child(6)').contains(resultProducts[0].price)
 
+                        const sqlCustomers = 'select * from customers where email = "ChainLongCo@gmail.com"'
+                        cy.task('queryDb', sqlCustomers)
+                            .then((resultCustomers) => {
+                                var phoneNumber = resultCustomers[0].phone;
+                                var phoneNumber = phoneNumber.replace(/\D*(\d{3})\D*(\d{3})\D*(\d{4})\D*/, '$1-$2-$3');
+                                cy.get('#ordersDatatable > tbody > tr > td:nth-child(1)').contains(resultCustomers[0].first_name)      
+                                cy.get('#ordersDatatable > tbody > tr > td:nth-child(2)').contains(resultCustomers[0].last_name)
+                                cy.get('#ordersDatatable > tbody > tr > td:nth-child(3)').contains(phoneNumber)      
+                                cy.get('#ordersDatatable > tbody > tr > td:nth-child(4)').contains(resultCustomers[0].email)
+                            })
+
                         const sqlRestaurants = 'select tax_rate from restaurants'
                         cy.task('queryDb', sqlRestaurants)
                             .then((resultRestaurants) => {
