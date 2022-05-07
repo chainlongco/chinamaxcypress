@@ -1078,6 +1078,28 @@ Cypress.Commands.add('RetrieveRegularPlatterData', () => {
 // ***** Combo Regular platter end *****
 
 // ***** Appetizers start*****
+// ***** Crab Rangoon (6) start *****
+Cypress.Commands.add('RetrieveCrabRangoonData', () => {
+    const sqlProductsCrabRangoon = 'select * from products where name = "Crab Rangoon (6)"'
+    cy.task('queryDb', sqlProductsCrabRangoon)
+        .then((resultProductsCrabRangoon) => {
+            const id = resultProductsCrabRangoon[0].id
+            cy.wrap(id).as('crabRangoonId')
+            const name = resultProductsCrabRangoon[0].name
+            cy.wrap(name).as('crabRangoonName')
+            const description = resultProductsCrabRangoon[0].description
+            cy.wrap(description).as('crabRangoonDescription')
+            const gallery = resultProductsCrabRangoon[0].gallery
+            cy.wrap(gallery).as('crabRangoonGallery')
+            const category = resultProductsCrabRangoon[0].category
+            cy.wrap(category).as('crabRangoonCategory')
+            const price = resultProductsCrabRangoon[0].price
+            cy.wrap(price).as('crabRangoonPrice')
+            const menuId = resultProductsCrabRangoon[0].menu_id
+            cy.wrap(menuId).as('crabRangoonMenuId')
+        })
+})
+// ***** Crab Rangoon (6) end *****
 // ***** Fried Dumpling (5) start *****
 Cypress.Commands.add('RetrieveFriedDumplingData', () => {
     const sqlProductsFriedDumpling = 'select * from products where name = "Fried Dumpling (5)"'
@@ -1098,7 +1120,7 @@ Cypress.Commands.add('RetrieveFriedDumplingData', () => {
             const menuId = resultProductsFriedDumpling[0].menu_id
             cy.wrap(menuId).as('friedDumplingMenuId')
         })
-    })    
+})    
 // ***** Fried Dumpling (5) end *****
 // ***** Appetizers end *****
 
